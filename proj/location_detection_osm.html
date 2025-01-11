@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Location Detection PDF</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script type="text/javascript">
+        function initialize() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    var map = L.map('map').setView([lat, lng], 13);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(map);
+                    L.marker([lat, lng]).addTo(map)
+                        .bindPopup('Your location is: ' + lat + ', ' + lng)
+                        .openPopup();
+                    document.getElementById('location').innerHTML = 'Your location is: ' + lat + ', ' + lng;
+                });
+            } else {
+                document.getElementById('location').innerHTML = 'Geolocation is not supported by this browser.';
+            }
+        }
+    </script>
+    <style>
+        #map { height: 180px; }
+    </style>
+</head>
+<body onload="initialize()">
+    <h1>Location Detection in PDF</h1>
+    <p id="location">Detecting your location...</p>
+    <div id="map"></div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+name: Convert HTML to PDF
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Convert HTML to PDF
+      run: |
+        sudo apt-get update
+        sudo apt-get install wkhtmltopdf
+        wkhtmltopdf location_detection_osm.html location_detection_osm.pdf
+
+    - name: Upload PDF to GitHub
+      uses: actions/upload-artifact@v2
+      with:
+        name: location-detection-pdf
+        path: location_detection_osm.pdf
+
